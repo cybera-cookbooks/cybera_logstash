@@ -1,0 +1,29 @@
+input {
+  file {
+    type => "apache-access"
+    path => ["/var/log/apache2/access.log*"]
+    exclude => ["*.gz"]
+  }
+}
+
+filter {
+  mutate {
+    add_field => ["institution", "<%= node[:institution] %>"]
+    update => ["host", "%{institution}-%{host}"]
+  }
+}
+
+output {
+  <% if node[:logstash][:broker][:type] == "rabbitmq" %>
+  # Broker output
+  rabbitmq {
+    host => "<%= node[:logstash][:broker][:ipaddress] %>"
+    port => <%= node[:logstash][:broker][:port] %>
+    exchange => "logstash"
+    user => "<%= node[:rabbitmq][:default_user] %>"
+    password => "<%= node[:rabbitmq][:default_pass] %>"
+    exchange_type => "fanout"
+    ssl => <%=  node[:logstash][:ssl][:enabled] %>
+  }
+  <% end %>
+}

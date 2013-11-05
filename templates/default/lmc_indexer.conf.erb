@@ -2,11 +2,11 @@ input {
   rabbitmq {
     ack => true
     host => 'localhost'
-    port => 5671
+    port => <%= node[:logstash][:broker][:port] %>
     exchange => "logstash"
-    user => "guest"
-    password => "guest"
-    ssl => true
+    user => "<%= node[:rabbitmq][:default_user] %>"
+    password => "<%= node[:rabbitmq][:default_pass] %>"
+    ssl => <%=  node[:logstash][:ssl][:enabled] %>
   }
 }
 

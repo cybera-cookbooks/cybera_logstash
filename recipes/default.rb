@@ -8,8 +8,14 @@ end
 include_recipe "rabbitmq"
 rabbitmq_user node[:rabbitmq][:default_user] do
   password node[:rabbitmq][:default_pass]
+  permissions ".* .* .*"
   action :add
 end
+rabbitmq_user node[:rabbitmq][:default_user] do
+  permissions ".* .* .*"
+  action :set_permissions
+end
+include_recipe "elasticsearch"
 include_recipe "elasticsearch"
 include_recipe "kibana"
 include_recipe "logstash::server"
