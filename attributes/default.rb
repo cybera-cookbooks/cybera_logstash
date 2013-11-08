@@ -1,16 +1,17 @@
 # Genereal logstash settings
 default[:logstash][:ssl][:enabled] = true
 default[:logstash][:ssl][:path] = "/etc/logstash/ssl"
+default[:logstash][:group] = "adm"
 
 # ElasticSearch attributes
 default[:elasticsearch][:path][:conf] = "/etc/elasticsearch"
 default[:elasticsearch][:path][:logs] = "/var/log/elasticsearch"
 default[:elasticsearch][:path][:logs] = "/var/lib/elasticsearch/data"
+default[:elasticsearch][:path][:data] = "/elasticsearch"
 default[:elasticsearch][:nginx][:allow_cluster_api] = true
 default[:elasticsearch][:nginx][:passwords_file] = "#{node[:elasticsearch][:path][:conf]}/passwords"
 
-default['kibana']['webserver_port'] = 9292
-default['kibana']['es_port'] = "8080"
+
 
 # RabbitMQ attributes (only needed if using RabbitMQ as the broker)
 default[:rabbitmq][:default_user] = "logstashuser"

@@ -9,6 +9,8 @@ input {
 filter {
   mutate {
     add_field => ["institution", "<%= node[:institution] %>"]
+  }
+  mutate {
     update => ["host", "%{institution}-%{host}"]
   }
 }
