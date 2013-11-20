@@ -1,0 +1,9 @@
+  file {
+    type => "postgresql"
+    path => ["/var/log/postgresql/postgresql-9.1-main.log*"]
+    exclude => ["*.gz"]
+    codec => multiline {
+      pattern => "(DETAIL:)|(STATEMENT:)"
+      what => "previous"
+    }
+  }

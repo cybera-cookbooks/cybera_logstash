@@ -1,0 +1,15 @@
+  if [type] == "postgresql" {
+    grok {
+      match => ["message", "%{DATESTAMP:timestamp} %{TZ} %{DATA:event_type}: %{GREEDYDATA:event_message}"]
+    }
+    # Error events can be multiline (can include detail and statement)
+    if [event_type] == "ERROR" {
+      grok {
+        add_tag => ["error"]
+        # Ok, here we will extrate the error message, detail, and statement (detail and statement may or may not be there)
+        # we also remove the 'data' field, error_message will replace it
+        remove_field => ["data"]
+        match => ["message", "%{TIMESTAMP_ISO8601}.+ERROR:\s+%{DATA:event_message}(\s*%{TIMESTAMP_ISO8601}.+DETAIL:\s+%{DATA:detail})?(\s*%{TIMESTAMP_ISO8601}.+STATEMENT:\s+%{DATA:statement})?$"]
+      }
+    }
+  }

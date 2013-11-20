@@ -1,18 +1,7 @@
 input {
-  file {
-    type => "apache-access"
-    path => ["/var/log/apache2/access.log*"]
-    exclude => ["*.gz"]
-  }
-  file {
-    type => "postgresql"
-    path => ["/var/log/postgresql/postgresql-9.1-main.log*"]
-    exclude => ["*.gz"]
-    codec => multiline {
-      pattern => "(DETAIL:)|(STATEMENT:)"
-      what => "previous"
-    }
-  }
+  <% node[:logstash][:agent][:input_template_partials].each do |filter| %>
+  <%= render "shipper/inputs/#{filter}", cookbook: "cybera_logstash" %>
+  <% end %>
 }
 
 filter {
@@ -22,19 +11,13 @@ filter {
   mutate {
     update => ["host", "%{institution}-%{host}"]
   }
+  <% node[:logstash][:agent][:filter_template_partials].each do |filter| %>
+  <%= render "shipper/filters/#{filter}", cookbook: "cybera_logstash", variables: {patterns_dir: @patterns_dir} %>
+  <% end %>
 }
 
 output {
-  <% if node[:logstash][:broker][:type] == "rabbitmq" %>
-  # Broker output
-  rabbitmq {
-    host => "<%= node[:logstash][:broker][:ipaddress] %>"
-    port => <%= node[:logstash][:broker][:port] %>
-    exchange => "logstash"
-    user => "<%= node[:rabbitmq][:default_user] %>"
-    password => "<%= node[:rabbitmq][:default_pass] %>"
-    exchange_type => "fanout"
-    ssl => <%=  node[:logstash][:ssl][:enabled] %>
-  }
+  <% node[:logstash][:agent][:output_template_partials].each do |filter| %>
+  <%= render "shipper/outputs/#{filter}", cookbook: "cybera_logstash" %>
   <% end %>
 }

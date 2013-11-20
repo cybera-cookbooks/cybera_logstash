@@ -39,6 +39,15 @@ default[:logstash][:agent][:source_url] = "https://download.elasticsearch.org/lo
 default[:logstash][:agent][:version] = "1.2.2"
 default[:logstash][:agent][:base_config] = "lmc_shipper.conf.erb"
 default[:logstash][:agent][:base_config_cookbook] = "cybera_logstash"
+default[:logstash][:agent][:input_template_partials] = [
+  "apache.erb",
+  "postgresql.erb"
+]
+default[:logstash][:agent][:filter_template_partials] = [
+]
+default[:logstash][:agent][:output_template_partials] = [
+  "rabbitmq.erb"
+]
 
 # The following settings are specific to logstash brokers
 default[:logstash][:broker][:type] = "rabbitmq"
@@ -52,6 +61,16 @@ default[:logstash][:server][:enable_embedded_es] = false
 default[:logstash][:server][:install_rabbitmq] = false
 default[:logstash][:server][:source_url] = "https://download.elasticsearch.org/logstash/logstash/logstash-1.2.2-flatjar.jar"
 default[:logstash][:server][:version] = "1.2.2"
+default[:logstash][:server][:input_template_partials] = [
+  "rabbitmq.erb"
+]
+default[:logstash][:server][:filter_template_partials] = [
+  "apache.erb",
+  "postgres.erb"
+]
+default[:logstash][:server][:output_template_partials] = [
+  "elasticsearch.erb"
+]
 
 # Custom Patterns here
 # NOTE: be careful about escape sequences here, don't let it waste hours of your time!

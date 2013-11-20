@@ -14,10 +14,12 @@ rabbitmq_user node[:rabbitmq][:default_user] do
   permissions ".* .* .*"
   action :set_permissions
 end
+
 include_recipe "elasticsearch"
 include_recipe "elasticsearch::proxy"
 include_recipe "kibana"
 include_recipe "logstash::server"
+
 if node[:logstash] && node[:logstash][:ssl] && node[:logstash][:ssl][:enabled]
   install_dir = node[:logstash][:ssl][:path]
   directory install_dir do
