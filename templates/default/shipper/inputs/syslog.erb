@@ -1,0 +1,5 @@
+  file {
+    type => "syslog"
+    path => ["/var/log/syslog*"]
+    exclude => ["*.gz"]
+  }

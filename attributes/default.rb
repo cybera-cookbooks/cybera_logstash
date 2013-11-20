@@ -41,7 +41,8 @@ default[:logstash][:agent][:base_config] = "lmc_shipper.conf.erb"
 default[:logstash][:agent][:base_config_cookbook] = "cybera_logstash"
 default[:logstash][:agent][:input_template_partials] = [
   "apache.erb",
-  "postgresql.erb"
+  "postgresql.erb",
+  "syslog.erb"
 ]
 default[:logstash][:agent][:filter_template_partials] = [
 ]
@@ -66,7 +67,8 @@ default[:logstash][:server][:input_template_partials] = [
 ]
 default[:logstash][:server][:filter_template_partials] = [
   "apache.erb",
-  "postgres.erb"
+  "postgres.erb",
+  "syslog.erb"
 ]
 default[:logstash][:server][:output_template_partials] = [
   "elasticsearch.erb"
