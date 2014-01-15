@@ -1,28 +1,45 @@
-  if [type] == "apache-access" {
-    # apache-access logs
-    grok {
-      patterns_dir => "<%= @patterns_dir %>"
-      match => [ "message", "%{APACHE_LMC_ACCESS_LOG}" ]
-    }
-    mutate {
-      convert => [ "responsetime", "integer" ]
-      convert => [ "bytes", "integer" ]
-    }
-    date {
-      match => [ "timestamp", "dd/MMM/yyyy:HH:mm:ss Z" ]
-      remove_field => [ "timestamp" ]
-    }
-    geoip {
-      add_tag => [ "geoip" ]
-      source => "clientip"
-    }
-
-    # create coords array with long and lat
-    mutate {
-      add_field => [ "coords", "%{[geoip][longitude]}",
-                     "tmplat", "%{[geoip][latitude]}" ]
-      merge => [ "coords", "tmplat" ]
-      remove_field => "tmplat"
-      convert => [ "coords", "float" ]
-    }
+if [type] == "apache-access" {
+  # apache-access logs
+  grok {
+    patterns_dir => "<%= @patterns_dir %>"
+    match => [ "message", "%{APACHE_LMC_ACCESS_LOG}" ]
   }
+  mutate {
+    convert => [ "responsetime", "integer" ]
+    convert => [ "bytes", "integer" ]
+  }
+  date {
+    match => [ "timestamp", "dd/MMM/yyyy:HH:mm:ss Z" ]
+    remove_field => [ "timestamp" ]
+  }
+  geoip {
+    add_tag => [ "geoip" ]
+    source => "clientip"
+  }
+}
+
+if [type] == "apache-error" {
+  grok {
+    patterns_dir => "<%= @patterns_dir %>"
+    match => [ "message", "%{APACHE_ERROR_LOG}" ]
+  }
+  date {
+    match => [ "timestamp", "MMM dd HH:mm:ss YYYY"]
+    remove_field => [ "timestamp" ]
+  }
+  geoip {
+    add_tag => [ "geoip" ]
+    source => "clientip"
+  }
+}
+
+if "geoip" in [tags] {
+  # create coords array with long and lat
+  mutate {
+    add_field => [ "coords", "%{[geoip][longitude]}",
+                   "tmplat", "%{[geoip][latitude]}" ]
+    merge => [ "coords", "tmplat" ]
+    remove_field => "tmplat"
+    convert => [ "coords", "float" ]
+  }
+}

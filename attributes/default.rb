@@ -78,7 +78,8 @@ default[:logstash][:server][:output_template_partials] = [
 # NOTE: be careful about escape sequences here, don't let it waste hours of your time!
 default[:logstash][:patterns] = {
   apache: {
-    APACHE_LMC_ACCESS_LOG: "%{IPORHOST:clientip} %{USER:ident} %{USER:auth} \\[%{HTTPDATE:timestamp}\\] \"(?:%{WORD:verb} %{NOTSPACE:request}(?: HTTP/%{NUMBER:httpversion})?|%{DATA:rawrequest})\" %{NUMBER:response} (?:%{NUMBER:bytes}|-) (?:%{NUMBER:responsetime}|-) %{QS:referrer} %{QS:agent}"
+    APACHE_LMC_ACCESS_LOG: "%{IPORHOST:clientip} %{USER:ident} %{USER:auth} \\[%{HTTPDATE:timestamp}\\] \"(?:%{WORD:verb} %{NOTSPACE:request}(?: HTTP/%{NUMBER:httpversion})?|%{DATA:rawrequest})\" %{NUMBER:response} (?:%{NUMBER:bytes}|-) (?:%{NUMBER:responsetime}|-) %{QS:referrer} %{QS:agent}",
+    APACHE_ERROR_LOG: "\[%{DAY}\s+(?<timestamp>%{SYSLOGTIMESTAMP}\s+%{YEAR})\]\s+\[%{DATA:severity}\]\s+\[%{WORD}\s+%{IP:clientip}\]\s+%{GREEDYDATA:errmsg}"
   }
 }
 
