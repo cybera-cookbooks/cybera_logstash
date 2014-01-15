@@ -23,10 +23,6 @@ if [type] == "apache-error" {
     patterns_dir => "<%= @patterns_dir %>"
     match => [ "message", "%{APACHE_ERROR_LOG}" ]
   }
-  date {
-    match => [ "timestamp", "MMM dd HH:mm:ss YYYY"]
-    remove_field => [ "timestamp" ]
-  }
   geoip {
     add_tag => [ "geoip" ]
     source => "clientip"
