@@ -1,0 +1,30 @@
+if [type] == "php5-fpm" {
+  # apache-access logs
+  grok {
+    patterns_dir => "<%= @patterns_dir %>"
+    match => [ "message", "%{PHP5_FPM_LOG}\s*%{GREEDYDATA:message}" ]
+    overwrite => [ "message" ]
+  }
+  date {
+    match => [ "timestamp", "dd-MMM-yyyy HH:mm:ss" ]
+    remove_field => [ "timestamp" ]
+  }
+
+  # If there is a component defined in the log message then capture it (starts with [component name])
+  grok {
+    match => [ "message", "^\[(?<foo>%{DATA})\]\s*%{GREEDYDATA:message}" ]
+    overwrite => [ "message" ]
+    add_tag => [ "%{component}" ]
+    tag_on_failure => []
+  }
+
+  # Now we do component specific parsing
+  if "pool www" in [tags] {
+    # if the message is talking about spawning children then capture that along with the total number of clildren and how many are idle
+    grok {
+      match => [ "message", ".*spawning %{INT:spawned_children}.+%{INT:idle_children}.+%{INT:total_children} total children" ]
+      tag_on_failure => []
+    }
+  }
+
+}
