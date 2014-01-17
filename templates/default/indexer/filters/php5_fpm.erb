@@ -5,14 +5,10 @@ if [type] == "php5-fpm" {
     match => [ "message", "%{PHP5_FPM_LOG}\s*%{GREEDYDATA:message}" ]
     overwrite => [ "message" ]
   }
-  date {
-    match => [ "timestamp", "dd-MMM-yyyy HH:mm:ss" ]
-    remove_field => [ "timestamp" ]
-  }
 
   # If there is a component defined in the log message then capture it (starts with [component name])
   grok {
-    match => [ "message", "^\[(?<foo>%{DATA})\]\s*%{GREEDYDATA:message}" ]
+    match => [ "message", "^\[(?<component>%{DATA})\]\s*%{GREEDYDATA:message}" ]
     overwrite => [ "message" ]
     add_tag => [ "%{component}" ]
     tag_on_failure => []
