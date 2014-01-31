@@ -4,11 +4,9 @@ license          'All rights reserved'
 name             'cybera_logstash'
 description      'Installs/Configures logstash for Cybera'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          '0.3.1'
-
-depends "rabbitmq"
-depends "elasticsearch"
-depends "logstash"
-depends "kibana"
+version          '0.4.1'
 
 recipe "default",         ""
+
+depends "apt"
+depends "logrotate"

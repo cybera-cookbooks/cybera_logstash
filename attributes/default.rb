@@ -1,42 +1,27 @@
 # General logstash settings
-default[:logstash][:ssl][:enabled] = true
-default[:logstash][:ssl][:path] = "/etc/logstash/ssl"
-default[:logstash][:group] = "adm"
+default[:logstash][:user]  = "logstash"
+default[:logstash][:group] = "logstash"
+default[:logstash][:log_directory] = "/var/log/logstash"
+default[:logstash][:config_directory] = "/etc/logstash/conf.d"
+# plugin directory is not currently being used...
+default[:logstash][:plugin_directory] = "#{node[:logstash][:install_directory]}/plugins"
+default[:logstash][:patterns_directory] = "#{node[:logstash][:config_directory]}/patterns"
 
-# ElasticSearch attributes
-default[:elasticsearch][:path][:conf] = "/etc/elasticsearch"
-default[:elasticsearch][:path][:logs] = "/var/log/elasticsearch"
-default[:elasticsearch][:path][:logs] = "/var/lib/elasticsearch/data"
-default[:elasticsearch][:path][:data] = "/elasticsearch"
-default[:elasticsearch][:nginx][:allow_cluster_api] = true
-default[:elasticsearch][:nginx][:passwords_file] = "#{node[:elasticsearch][:path][:conf]}/passwords"
+# Command line options for logstash
+# This section of attributes should probably provide the minimum reasonable default and either give suggestions
+# for different settings for common usage scenarios... or perhaps better, link to relivant Logstash documentation
+default[:logstash][:xms] = "1024M"      # not used right now
+default[:logstash][:xmx] = "1024M"
+default[:logstash][:java_options] = ""  # not used right now
+default[:logstash][:gc_options] = "-XX:+UseParallelOldGC"  # not used right now
+default[:logstash][:filter_workers] = 1  # not used right now
 
-
-
-# RabbitMQ attributes (only needed if using RabbitMQ as the broker)
-default[:rabbitmq][:default_user] = "logstashuser"
-default[:rabbitmq][:default_pass] = "logstashSuP3Rs3creT"
-default[:rabbitmq][:enabled_users] =
-  [
-    {
-      :name => node[:rabbitmq][:default_user],
-      :password => node[:rabbitmq][:default_pass],
-      :rights => [{:vhost => nil , :conf => ".*", :write => ".*", :read => ".*"}]
-    }
-  ]
-
-default[:rabbitmq][:ssl_port] = 5671
-default[:rabbitmq][:ssl] = node[:logstash][:ssl][:enabled],
-default[:rabbitmq][:ssl_cacert] = "#{node[:logstash][:ssl][:path]}/cacert.pem"
-default[:rabbitmq][:ssl_cert] = "#{node[:logstash][:ssl][:path]}/cert.pem"
-default[:rabbitmq][:ssl_key] = "#{node[:logstash][:ssl][:path]}/key.pem"
-default[:rabbitmq][:ssl_verify] = "verify_none"
-
-
+## TODO: it does not really make sense to distinguish between a shipper/agent and indexer/server here
+##       this distinction should really be made by either a role or wrapper/application cookbook by including specific
+##       sets of inputs, filters, and outputs. This cookbook should just focus on setting up Logstash with the desired
+##       configuration that roles/environments/other cookbooks need.
+##       Sooooo, much of what lies below can probably be removed or seriously altered
 # The following settings are specific to logstash agents (shippers)
-default[:logstash][:agent][:server_role] = "logstash_indexer"
-default[:logstash][:agent][:source_url] = "https://download.elasticsearch.org/logstash/logstash/logstash-1.2.2-flatjar.jar"
-default[:logstash][:agent][:version] = "1.2.2"
 default[:logstash][:agent][:base_config] = "lmc_shipper.conf.erb"
 default[:logstash][:agent][:base_config_cookbook] = "cybera_logstash"
 default[:logstash][:agent][:input_template_partials] = [
@@ -52,17 +37,13 @@ default[:logstash][:agent][:output_template_partials] = [
 ]
 
 # The following settings are specific to logstash brokers
-default[:logstash][:broker][:type] = "rabbitmq"
+# this should really be removed as a broker is not 'really' part of Logstash, it is more to be defined as
+# an input and output. Theoretically a person could use more than one, so this attribute doesn't really make sense.
+default[:logstash][:broker][:type] = "none"
 default[:logstash][:broker][:ipaddress] = "127.0.0.1"
-default[:logstash][:broker][:port] = node[:rabbitmq][:ssl_port]
+default[:logstash][:broker][:port] = 9000
 
 # The following settings are specific to logstash servers (indexers)
-default[:logstash][:server][:base_config] = "lmc_indexer.conf.erb"
-default[:logstash][:server][:base_config_cookbook] = "cybera_logstash"
-default[:logstash][:server][:enable_embedded_es] = false
-default[:logstash][:server][:install_rabbitmq] = false
-default[:logstash][:server][:source_url] = "https://download.elasticsearch.org/logstash/logstash/logstash-1.2.2-flatjar.jar"
-default[:logstash][:server][:version] = "1.2.2"
 default[:logstash][:server][:input_template_partials] = [
   "rabbitmq.erb"
 ]
