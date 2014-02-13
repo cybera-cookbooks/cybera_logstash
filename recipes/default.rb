@@ -1,22 +1,22 @@
 # should add support for YUM based distros
 apt_repository "logstash" do
   uri "http://packages.elasticsearch.org/logstash/1.3/debian"
-  distribution node['lsb']['codename']
+  distribution "stable"
   components ["main"]
-  keyserver "http://packages.elasticsearch.org/GPG-KEY-elasticsearch"
+  key "http://packages.elasticsearch.org/GPG-KEY-elasticsearch"
   action :add
 end
 include_recipe "apt"
 
 package "logstash"
 service "logstash" do
-  supports restart: true
+  supports restart: true, start: true, stop: true, status: true
 end
 
 # this is used by init for logstash
 template "/etc/default/logstash" do
   source "etc/default/logstash.erb"
-  notifies :restart, "logstash"
+  notifies :restart, "service[logstash]"
   action :create
 end
 
@@ -31,8 +31,11 @@ end
 template "#{node[:logstash][:config_directory]}/logstash.conf" do
   source "config/logstash.conf.erb"
   variables({
-    patterns_dir: node[:logstash][:patterns_directory]
+    patterns_dir: node[:logstash][:patterns_directory],
+    inputs: node[:logstash][:config][:input_template_partials] || [],
+    filters: node[:logstash][:config][:filter_template_partials] || [],
+    outputs: node[:logstash][:config][:output_template_partials] || []
   })
-  notifies :restart, "logstash"
+  notifies :restart, "service[logstash]"
   action :create
 end

@@ -16,25 +16,6 @@ default[:logstash][:java_options] = ""  # not used right now
 default[:logstash][:gc_options] = "-XX:+UseParallelOldGC"  # not used right now
 default[:logstash][:filter_workers] = 1  # not used right now
 
-## TODO: it does not really make sense to distinguish between a shipper/agent and indexer/server here
-##       this distinction should really be made by either a role or wrapper/application cookbook by including specific
-##       sets of inputs, filters, and outputs. This cookbook should just focus on setting up Logstash with the desired
-##       configuration that roles/environments/other cookbooks need.
-##       Sooooo, much of what lies below can probably be removed or seriously altered
-# The following settings are specific to logstash agents (shippers)
-default[:logstash][:agent][:base_config] = "lmc_shipper.conf.erb"
-default[:logstash][:agent][:base_config_cookbook] = "cybera_logstash"
-default[:logstash][:agent][:input_template_partials] = [
-  "apache.erb",
-  "php5_fpm.erb",
-  "postgresql.erb",
-  "syslog.erb"
-]
-default[:logstash][:agent][:filter_template_partials] = [
-]
-default[:logstash][:agent][:output_template_partials] = [
-  "rabbitmq.erb"
-]
 
 # The following settings are specific to logstash brokers
 # this should really be removed as a broker is not 'really' part of Logstash, it is more to be defined as
@@ -44,16 +25,16 @@ default[:logstash][:broker][:ipaddress] = "127.0.0.1"
 default[:logstash][:broker][:port] = 9000
 
 # The following settings are specific to logstash servers (indexers)
-default[:logstash][:server][:input_template_partials] = [
-  "rabbitmq.erb"
+default[:logstash][:config][:input_template_partials] = [
+#  "rabbitmq.erb"
 ]
-default[:logstash][:server][:filter_template_partials] = [
+default[:logstash][:config][:filter_template_partials] = [
   "apache.erb",
   "php5_fpm.erb",
   "postgres.erb",
   "syslog.erb"
 ]
-default[:logstash][:server][:output_template_partials] = [
+default[:logstash][:config][:output_template_partials] = [
   "elasticsearch.erb"
 ]
 
