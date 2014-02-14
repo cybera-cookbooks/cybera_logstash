@@ -32,9 +32,9 @@ template "#{node[:logstash][:config_directory]}/logstash.conf" do
   source "config/logstash.conf.erb"
   variables({
     patterns_dir: node[:logstash][:patterns_directory],
-    inputs: node[:logstash][:config][:input_template_partials] || [],
-    filters: node[:logstash][:config][:filter_template_partials] || [],
-    outputs: node[:logstash][:config][:output_template_partials] || []
+    inputs: node[:logstash][:config][:inputs] || {},
+    filters: node[:logstash][:config][:filters] || {},
+    outputs: node[:logstash][:config][:outputs] || {}
   })
   notifies :restart, "service[logstash]"
   action :create
