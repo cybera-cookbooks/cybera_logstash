@@ -5,7 +5,7 @@ default[:logstash][:log_directory] = "/var/log/logstash"
 default[:logstash][:config_directory] = "/etc/logstash/conf.d"
 # plugin directory is not currently being used...
 default[:logstash][:plugin_directory] = "#{node[:logstash][:install_directory]}/plugins"
-default[:logstash][:patterns_directory] = "#{node[:logstash][:config_directory]}/patterns"
+default[:logstash][:patterns_directory] = "/etc/grok_patterns"
 
 # Command line options for logstash
 # This section of attributes should probably provide the minimum reasonable default and either give suggestions

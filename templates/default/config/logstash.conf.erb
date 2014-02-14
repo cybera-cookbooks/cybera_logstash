@@ -6,7 +6,7 @@ input {
 
 filter {
   <% @filters.each do |filter_name, filter| %>
-  <%= render filter[:template_path], cookbook: filter[:template_cookbook], variables: filter[:variables].merge({
+  <%= render filter[:template_path], cookbook: filter[:template_cookbook], variables: filter[:variables].to_hash.merge({
       patterns_dir: @patterns_dir
     }) if filter[:enabled]
   %>
@@ -14,7 +14,6 @@ filter {
 }
 
 output {
-  stdout {  }
   <% @outputs.each do |output_name, output| %>
   <%= render(output[:template_path], cookbook: output[:template_cookbook], variables: output[:variables]) if output[:enabled] %>
   <% end %>

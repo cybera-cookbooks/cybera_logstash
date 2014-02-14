@@ -28,6 +28,31 @@ logrotate_app 'logstash' do
   rotate    7
 end
 
+group "adm" do
+  action :modify
+  members node[:logstash][:user]
+  append true
+end
+
+directory node[:logstash][:patterns_directory] do
+  owner "root"
+  group "root"
+  mode 0644
+end
+
+node[:logstash][:patterns].each do |pattern_group, patterns|
+  lines = []
+  patterns.each do |pattern_name, pattern_content|
+    lines << "#{pattern_name} #{pattern_content}"
+  end
+  file "#{node[:logstash][:patterns_directory]}/#{pattern_group}" do
+    content "#{lines.join("\n")}\n"
+    owner "root"
+    group "root"
+    mode 0644
+  end
+end
+
 template "#{node[:logstash][:config_directory]}/logstash.conf" do
   source "config/logstash.conf.erb"
   variables({
