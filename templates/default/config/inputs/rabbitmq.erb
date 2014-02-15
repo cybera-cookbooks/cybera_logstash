@@ -1,9 +1,9 @@
   rabbitmq {
     ack => true
-    host => 'localhost'
-    port => <%= node[:logstash][:broker][:port] %>
+    host => '<%= @host %>'
+    port => <%= @port %>
     exchange => "logstash"
-    user => "<%= node[:rabbitmq][:default_user] %>"
-    password => "<%= node[:rabbitmq][:default_pass] %>"
-    ssl => <%=  node[:logstash][:ssl][:enabled] %>
+    user => "<%= @user %>"
+    password => "<%= @password %>"
+    ssl => <%=  @ssl_enabled %>
   }
