@@ -1,38 +1,41 @@
 DESCRIPTION
 ===========
 This cookbook will deploy Logstash along with the enabled inputs, filters, and outputs and any defined Grok patterns.
-NOTE: This cookbook currently only works on systems using the Apt package repository.
+
+__NOTE:__ This cookbook currently only works on systems using the Apt package repository.
 
 ATTRIBUTES
 ==========
 Installation Attributes
 -----------------------
 These attributes determine the configuration of the Logstash service. These should be fairly self explanitory.
-* node[:logstash][:user]
-* node[:logstash][:group]
-* node[:logstash][:log_directory]
-* node[:logstash][:config_directory]
-* node[:logstash][:plugin_directory]
-* node[:logstash][:patterns_directory]
+* `node[:logstash][:user]`
+* `node[:logstash][:group]`
+* `node[:logstash][:log_directory]`
+* `node[:logstash][:config_directory]`
+* `node[:logstash][:plugin_directory]`
+* `node[:logstash][:patterns_directory]`
 
 These attributes determine the JVM arguements for running Logstash (most of these are currently not being used)
-* node[:logstash][:xms]
-* node[:logstash][:xmx]
-* node[:logstash][:java_options]
-* node[:logstash][:gc_options]
-* node[:logstash][:filter_workers]
+* `node[:logstash][:xms]`
+* `node[:logstash][:xmx]`
+* `node[:logstash][:java_options]`
+* `node[:logstash][:gc_options]`
+* `node[:logstash][:filter_workers]`
 
 Grok Pattern Attributes
 -----------------------
 Grok patterns are defined as follows
-    node[:logstash][:patterns][:grok_group_1][:pattern_1] = 'my pattern here'
-    node[:logstash][:patterns][:grok_group_1][:pattern_2] = 'my other pattern'
-    node[:logstash][:patterns][:grok_group_2][:pattern_3] = 'my third pattern'
+```
+node[:logstash][:patterns][:grok_group_1][:pattern_1] = 'my pattern here'
+node[:logstash][:patterns][:grok_group_1][:pattern_2] = 'my other pattern'
+node[:logstash][:patterns][:grok_group_2][:pattern_3] = 'my third pattern'
+```
 Each group of Grok patterns will be defined as its own file in the patterns directory and each pattern in the group will be defined as a line in that file.
 
 Logstash Configuration Attributes
 ---------------------------------
-The Logstash configuration file consists of three sections: 'input', 'filter', and 'output'. Each of these sections can contain any number of blocks. For example, the input section could have a block for an Apache log file, the filter section could have a block for parsing or modifying the Apache logs, and the output could have a block for sending data to Elastic Search.
+The Logstash configuration file consists of three sections: _input_, _filter_, and _output_. Each of these sections can contain any number of blocks. For example, the input section could have a block for an Apache log file, the filter section could have a block for parsing or modifying the Apache logs, and the output could have a block for sending data to Elastic Search.
 
 Each Block is defined by a template partial. In this cookbook they are organized as in the default templates directory as. (For more on the block partial templates see the corresponding section below)
 * config/inputs/
@@ -40,38 +43,42 @@ Each Block is defined by a template partial. In this cookbook they are organized
 * config/outputs/
 
 Each block template must have the following four attributes defined.
-    node[:logstash][:config][:input][:block_name][:enabled] = false        # true or false
-    node[:logstash][:config][:input][:block_name][:template_path] = "config/inputs/block_name.erb"
-    node[:logstash][:config][:input][:block_name][:template_cookbook] = "cybera_logstash"
-    node[:logstash][:config][:input][:block_name][:variables] = {
-        :variable_1 => "foo",
-        :variable_2 => "bar"
-    }
-NOTE: The blocks for 'filter' and 'output' are defined in the same way. 
+```
+node[:logstash][:config][:input][:block_name][:enabled] = false        # true or false
+node[:logstash][:config][:input][:block_name][:template_path] = "config/inputs/block_name.erb"
+node[:logstash][:config][:input][:block_name][:template_cookbook] = "cybera_logstash"
+node[:logstash][:config][:input][:block_name][:variables] = {
+    :variable_1 => "foo",
+    :variable_2 => "bar"
+}
+```
+__NOTE:__ The blocks for 'filter' and 'output' are defined in the same way. 
 
-The first attribute determines whether or not this block will be used. The 'template_path' attribute should be the path to the partial template itself and the 'template_cookbook' is the name of the cookbook that contains the block template. Lastly, the 'variables' attribute is a hash of variable name/value pairs. The variable names can be accessed inside the template as '@variable_name' just as you would access the variables passed to any template in Chef.
+The `enable` attribute determines whether or not this block will be used. The `template_path` attribute should be the path to the partial template itself and the `template_cookbook` is the name of the cookbook that contains the block template. Lastly, the `variables` attribute is a hash of variable name/value pairs. The variable names can be accessed inside the template as `@variable_name` just as you would access the variables passed to any template in Chef.
 
 TEMPLATES
 =========
 config/logstash.conf.erb
 ------------------------
 This template will generate the Logstash configuration file. Each section (input, filter, and output) is generated by rendering the enabled 'block' partials (see the above secton on 'Logstash Configuration Attributes'). The fully rendered config file will look something like....
-    input {
-        INPUT_BLOCK_1
-        INPUT_BLOCK_2
-        ...
-    }
-    filter {
-        FILTER_BLOCK_1
-        FILTER_BLOCK_2
-        ...
-    }
-    output {
-        OUTPUT_BLOCK_1
-        OUTPUT_BLOCK_2
-        ...
-    }
-WARNING: Block ordering is not guarenteed (This may be worth revisiting in the future)
+```
+input {
+    INPUT_BLOCK_1
+    INPUT_BLOCK_2
+    ...
+}
+filter {
+    FILTER_BLOCK_1
+    FILTER_BLOCK_2
+    ...
+}
+output {
+    OUTPUT_BLOCK_1
+    OUTPUT_BLOCK_2
+    ...
+}
+```
+__WARNING:__ Block ordering is not guarenteed (This may be worth revisiting in the future)
 
 Block Template Partials
 -----------------------
