@@ -11,4 +11,4 @@ default[:logstash][:config][:inputs][:rabbitmq][:variables][:ssl_enabled] = fals
 default[:logstash][:config][:inputs][:syslog][:enabled] = false
 default[:logstash][:config][:inputs][:syslog][:template_path] = "#{inputs_path}/syslog.erb"
 default[:logstash][:config][:inputs][:syslog][:template_cookbook] = "cybera_logstash"
-default[:logstash][:config][:inputs][:rabbitmq][:variables] = {}
+default[:logstash][:config][:inputs][:syslog][:variables] = {}

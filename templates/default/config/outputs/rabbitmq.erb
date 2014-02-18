@@ -1,12 +1,9 @@
-<% if node[:logstash][:broker][:type] == "rabbitmq" %>
-  # Broker output
   rabbitmq {
-    host => "<%= node[:logstash][:broker][:ipaddress] %>"
-    port => <%= node[:logstash][:broker][:port] %>
+    host => "<%= @host %>"
+    port => <%= @port %>
     exchange => "logstash"
-    user => "<%= node[:rabbitmq][:default_user] %>"
-    password => "<%= node[:rabbitmq][:default_pass] %>"
+    user => "<%= @user %>"
+    password => "<%= @password %>"
     exchange_type => "fanout"
-    ssl => <%=  node[:logstash][:ssl][:enabled] %>
+    ssl => <%=  @ssl_enabled %>
   }
-<% end %>
