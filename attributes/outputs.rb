@@ -13,6 +13,9 @@ default[:logstash][:config][:outputs][:rabbitmq][:variables][:user] = "logstashu
 default[:logstash][:config][:outputs][:rabbitmq][:variables][:password] = "logstashSuP3Rs3creT"
 default[:logstash][:config][:outputs][:rabbitmq][:variables][:ssl_enabled] = false
 
+default[:logstash][:config][:outputs][:stdout][:enabled] = false
+default[:logstash][:config][:outputs][:stdout][:template_path] = "#{outputs_path}/stdout.erb"
+default[:logstash][:config][:outputs][:stdout][:template_cookbook] = "cybera_logstash"
 default[:logstash][:config][:outputs][:stdout][:variables][:debug] = false
 default[:logstash][:config][:outputs][:stdout][:variables][:codec] = "plain"
 default[:logstash][:config][:outputs][:stdout][:variables][:workers] = 1
