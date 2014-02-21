@@ -42,12 +42,12 @@ Each Block is defined by a template partial. In this cookbook they are organized
 * config/filters/
 * config/outputs/
 
-Each block template must have the following four attributes defined.
+Each block template must have the following four attributes defined. (most will likely be defined in an attribute file in the cookbook that contains the block template itself)
 ```
-node[:logstash][:config][:input][:block_name][:enabled] = false        # true or false
-node[:logstash][:config][:input][:block_name][:template_path] = "config/inputs/block_name.erb"
-node[:logstash][:config][:input][:block_name][:template_cookbook] = "cybera_logstash"
-node[:logstash][:config][:input][:block_name][:variables] = {
+node[:logstash][:config][:inputs][:block_name][:enabled] = false        # true or false
+node[:logstash][:config][:inputs][:block_name][:template_path] = "config/inputs/block_name.erb"
+node[:logstash][:config][:inputs][:block_name][:template_cookbook] = "cybera_logstash"
+node[:logstash][:config][:inputs][:block_name][:variables] = {
     :variable_1 => "foo",
     :variable_2 => "bar"
 }

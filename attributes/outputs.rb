@@ -5,7 +5,7 @@ default[:logstash][:config][:outputs][:elasticsearch][:template_cookbook] = "cyb
 default[:logstash][:config][:outputs][:elasticsearch][:variables][:host] = "localhost"
 
 default[:logstash][:config][:outputs][:rabbitmq][:enabled] = false
-default[:logstash][:config][:outputs][:rabbitmq][:template_path] = "#{inputs_path}/rabbitmq.erb"
+default[:logstash][:config][:outputs][:rabbitmq][:template_path] = "#{outputs_path}/rabbitmq.erb"
 default[:logstash][:config][:outputs][:rabbitmq][:template_cookbook] = "cybera_logstash"
 default[:logstash][:config][:outputs][:rabbitmq][:variables][:host] = "localhost"
 default[:logstash][:config][:outputs][:rabbitmq][:variables][:port] = 5671
