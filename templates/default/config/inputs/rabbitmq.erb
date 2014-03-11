@@ -2,8 +2,13 @@
     ack => true
     host => '<%= @host %>'
     port => <%= @port %>
-    exchange => "logstash"
     user => "<%= @user %>"
     password => "<%= @password %>"
     ssl => <%=  @ssl_enabled %>
+    auto_delete => false
+    durable => true
+    exchange => "logstash"
+    exclusive => false
+    queue => "logstash_queue"
+    threads => 2
   }

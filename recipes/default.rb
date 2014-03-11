@@ -37,7 +37,7 @@ end
 directory node[:logstash][:patterns_directory] do
   owner "root"
   group "root"
-  mode 0644
+  mode 0755
 end
 
 node[:logstash][:patterns].each do |pattern_group, patterns|

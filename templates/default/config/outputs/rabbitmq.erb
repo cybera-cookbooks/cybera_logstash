@@ -4,6 +4,8 @@
     exchange => "logstash"
     user => "<%= @user %>"
     password => "<%= @password %>"
-    exchange_type => "fanout"
     ssl => <%=  @ssl_enabled %>
+    durable => true
+    exchange_type => "direct"
+    persistent => true
   }

@@ -5,7 +5,7 @@ if [type] == "apache-access" {
     match => [ "message", "%{APACHE_LMC_ACCESS_LOG}" ]
   }
   mutate {
-    convert => [ "responsetime", "integer" ]
+    convert => [ "response_time", "integer" ]
     convert => [ "bytes", "integer" ]
   }
   date {
