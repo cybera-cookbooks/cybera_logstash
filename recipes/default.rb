@@ -14,6 +14,11 @@ service "logstash" do
 end
 
 # this is used by init for logstash
+cookbook_file "/etc/init.d/logstash" do
+  source "logstash"
+  notifies :restart, "service[logstash]"
+  action :create
+end
 template "/etc/default/logstash" do
   source "etc/default/logstash.erb"
   notifies :restart, "service[logstash]"

@@ -10,5 +10,5 @@
     exchange => "logstash"
     exclusive => false
     queue => "logstash_queue"
-    threads => 2
+    threads => <%= @threads %>
   }

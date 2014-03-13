@@ -43,3 +43,6 @@ LS_OPTS="--log ${LOG_FILE}"
 
 # Set a home directory
 HOME=/var/lib/logstash
+
+# Set number of workers
+WORKERS=<%= node[:logstash][:filter_workers] %>

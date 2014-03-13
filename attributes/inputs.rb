@@ -7,6 +7,7 @@ default[:logstash][:config][:inputs][:rabbitmq][:variables][:port] = 5671
 default[:logstash][:config][:inputs][:rabbitmq][:variables][:user] = "logstashuser"
 default[:logstash][:config][:inputs][:rabbitmq][:variables][:password] = "logstashSuP3Rs3creT"
 default[:logstash][:config][:inputs][:rabbitmq][:variables][:ssl_enabled] = false
+default[:logstash][:config][:inputs][:rabbitmq][:variables][:threads] = 1
 
 # FILE INPUTS
 ## TODO: These file inputs can likely just be replaced by a more generic file template
