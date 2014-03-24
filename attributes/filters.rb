@@ -7,7 +7,7 @@ default[:logstash][:config][:filters][:apache][:variables] = {}
 default[:logstash][:config][:filters][:institutions][:enabled] = false
 default[:logstash][:config][:filters][:institutions][:template_path] = "#{filters_path}/institutions.erb"
 default[:logstash][:config][:filters][:institutions][:template_cookbook] = "cybera_logstash"
-default[:logstash][:config][:filters][:institutions][:variables][:institution_name] = ""
+default[:logstash][:config][:filters][:institutions][:variables][:institution_name] = node[:institution]
 
 default[:logstash][:config][:filters][:php5_fpm][:enabled] = false
 default[:logstash][:config][:filters][:php5_fpm][:template_path] = "#{filters_path}/php5_fpm.erb"
