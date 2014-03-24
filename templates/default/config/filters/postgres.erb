@@ -1,6 +1,10 @@
   if [type] == "postgresql" {
     grok {
-      match => ["message", "%{DATESTAMP:timestamp} %{TZ} %{DATA:event_type}: %{GREEDYDATA:event_message}"]
+      match => ["message", "(?<timestamp>%{TIMESTAMP_ISO8601} %{TZ}) %{DATA:event_type}: %{GREEDYDATA:event_message}"]
+    }
+    date {
+      match => ["timestamp", "yyyy-MM-dd HH:mm:ss z" ]
+      remove_field => [ "syslog_timestamp" ]
     }
     # Error events can be multiline (can include detail and statement)
     if [event_type] == "ERROR" {

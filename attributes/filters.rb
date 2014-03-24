@@ -4,6 +4,11 @@ default[:logstash][:config][:filters][:apache][:template_path] = "#{filters_path
 default[:logstash][:config][:filters][:apache][:template_cookbook] = "cybera_logstash"
 default[:logstash][:config][:filters][:apache][:variables] = {}
 
+default[:logstash][:config][:filters][:institutions][:enabled] = false
+default[:logstash][:config][:filters][:institutions][:template_path] = "#{filters_path}/institutions.erb"
+default[:logstash][:config][:filters][:institutions][:template_cookbook] = "cybera_logstash"
+default[:logstash][:config][:filters][:institutions][:variables][:institution_name] = ""
+
 default[:logstash][:config][:filters][:php5_fpm][:enabled] = false
 default[:logstash][:config][:filters][:php5_fpm][:template_path] = "#{filters_path}/php5_fpm.erb"
 default[:logstash][:config][:filters][:php5_fpm][:template_cookbook] = "cybera_logstash"

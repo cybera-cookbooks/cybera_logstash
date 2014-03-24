@@ -1,0 +1,7 @@
+<% return if @institution_name.empty? %>
+  mutate {
+    add_field => ["institution", "<%= @institution_name %>"]
+  }
+  mutate {
+    update => ["host", "%{institution}-%{host}"]
+  }
