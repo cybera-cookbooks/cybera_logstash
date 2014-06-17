@@ -16,12 +16,13 @@ end
 # this is used by init for logstash
 cookbook_file "/etc/init.d/logstash" do
   source "logstash"
+  mode 0755
   notifies :restart, "service[logstash]"
   action :create
 end
 template "/etc/default/logstash" do
   source "etc/default/logstash.erb"
-  mode 0644
+  mode 0755
   notifies :restart, "service[logstash]"
   action :create
 end
