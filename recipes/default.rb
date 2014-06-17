@@ -21,6 +21,7 @@ cookbook_file "/etc/init.d/logstash" do
 end
 template "/etc/default/logstash" do
   source "etc/default/logstash.erb"
+  mode 0644
   notifies :restart, "service[logstash]"
   action :create
 end
@@ -60,6 +61,7 @@ end
 
 template "#{node[:logstash][:config_directory]}/logstash.conf" do
   source "config/logstash.conf.erb"
+  mode 0644
   variables({
     patterns_dir: node[:logstash][:patterns_directory],
     inputs: node[:logstash][:config][:inputs] || {},
