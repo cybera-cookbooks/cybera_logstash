@@ -1,0 +1,7 @@
+if [type] == "moodle-cron" {
+  grok {
+    match => [ "message", "^((?<timestamp>.*)(\s+-\s+))?(?<data>.+)" ]
+  }
+}
+
+

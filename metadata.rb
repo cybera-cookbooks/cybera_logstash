@@ -4,7 +4,7 @@ license          'All rights reserved'
 name             'cybera_logstash'
 description      'Installs/Configures logstash for Cybera'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          '0.9.0' # Sprint 2014/06
+version          '0.10.0' # Sprint 2014/08
 
 recipe "default",         ""
 
