@@ -2,6 +2,10 @@ if [type] == "moodle-cron" {
   grok {
     match => [ "message", "^((?<timestamp>.*)(\s+-\s+))?(?<data>.+)" ]
   }
+  date {
+    match => ["timestamp", "yyyy-MM-dd HH:mm:ss"]
+    remove_field => ["timestamp"]
+  }
 }
 
 
