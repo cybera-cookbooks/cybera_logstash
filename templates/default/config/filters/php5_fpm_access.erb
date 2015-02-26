@@ -1,0 +1,13 @@
+if [type] == "php5-fpm-access" {
+  date {
+    match => ["request_received", "ISO8601"]
+  }
+  date {
+    match => ["request_received", "ISO8601"]
+    target => "request_received"
+  }
+  date {
+    match => ["request_finished", "ISO8601"]
+    target => "request_finished"
+  }
+}

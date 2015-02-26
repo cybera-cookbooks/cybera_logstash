@@ -26,6 +26,11 @@ default[:logstash][:config][:inputs][:php5_fpm][:template_path] = "#{inputs_path
 default[:logstash][:config][:inputs][:php5_fpm][:template_cookbook] = "cybera_logstash"
 default[:logstash][:config][:inputs][:php5_fpm][:variables] = {}
 
+default[:logstash][:config][:inputs][:php5_fpm_access][:enabled] = false
+default[:logstash][:config][:inputs][:php5_fpm_access][:template_path] = "#{inputs_path}/php5_fpm_access.erb"
+default[:logstash][:config][:inputs][:php5_fpm_access][:template_cookbook] = "cybera_logstash"
+default[:logstash][:config][:inputs][:php5_fpm_access][:variables] = {}
+
 default[:logstash][:config][:inputs][:postgresql][:enabled] = false
 default[:logstash][:config][:inputs][:postgresql][:template_path] = "#{inputs_path}/postgresql.erb"
 default[:logstash][:config][:inputs][:postgresql][:template_cookbook] = "cybera_logstash"

@@ -1,0 +1,6 @@
+  file {
+    type => "php5-fpm-access"
+    path => ["/var/log/php5-fpm/access.log*"]
+    exclude => ["*.gz"]
+    codec => "json"
+  }
