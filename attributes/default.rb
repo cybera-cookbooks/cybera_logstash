@@ -29,6 +29,5 @@ default[:logstash][:patterns] = {
   moodle_cron: {
     MOODLE_CRON_TIMESTAMP: '%{YEAR}-%{MONTHNUM}-%{MONTHDAY}[T ]%{HOUR}:?%{MINUTE}(?::?%{SECOND})',
     MOODLE_CRON_MD5SUM: '\([a-zA-Z0-9]+\)',
-    HYPHEN: '\-'
   }
 }
