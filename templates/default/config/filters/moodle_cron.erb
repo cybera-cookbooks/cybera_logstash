@@ -1,7 +1,21 @@
 if [type] == "moodle-cron" {
-  grok {
-    match => [ "message", "^((?<timestamp>.*)(\s+-\s+))?(?<data>.+)" ]
-  }
+	grok {
+		patterns_dir => "<%= @patterns_dir %>"
+		break_on_match => true
+		match => [
+                	"message", "%{MOODLE_CRON_TIMESTAMP:timestamp} %{MOODLE_CRON_MD5SUM:my_md5sum} %{HYPHEN:hyphen} %{GREEDYDATA:event_message}",
+                	"message", "%{MOODLE_CRON_TIMESTAMP:timestamp} %{HYPHEN:hyphen} %{GREEDYDATA:event_message}"
+             	]
+    		remove_field => ["hyphen"]
+    		remove_tag => [ "_grokparsefailure" ]
+	}	
+
+	if "_grokparsefailure" in [tags] {
+  		drop { }
+	}
+
+	date {
+        	match => [ "timestamp", "YYYY-MM-dd HH:mm:ss" ]
+  	}
+
 }
-
-

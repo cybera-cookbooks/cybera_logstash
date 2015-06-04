@@ -25,5 +25,10 @@ default[:logstash][:patterns] = {
   },
   php5_fpm: {
     PHP5_FPM_LOG: '\[(?<timestamp>%{MONTHDAY}-%{MONTH}-%{YEAR} %{TIME})\] %{WORD:severity}:'
+  },
+  moodle_cron: {
+    MOODLE_CRON_TIMESTAMP: '%{YEAR}-%{MONTHNUM}-%{MONTHDAY}[T ]%{HOUR}:?%{MINUTE}(?::?%{SECOND})',
+    MOODLE_CRON_MD5SUM: '\([a-zA-Z0-9]+\)',
+    HYPHEN: '\-'
   }
 }
