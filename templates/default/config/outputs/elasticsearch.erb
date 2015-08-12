@@ -1,3 +1,8 @@
-elasticsearch_http {
+elasticsearch {
+  cluster => "lmc-production-elasticsearch"
   host => "<%= @host %>"
+  port => 9300
+  node_name => "<%= @node_name %>"
+  bind_host => "<%= @node_ipaddress %>"
+  bind_port => 9300
 }

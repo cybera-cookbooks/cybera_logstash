@@ -1,0 +1,6 @@
+<% @files.each do |f| %>
+  file {
+    type => "<%= f[:type] %>"
+    path => ["<%= f[:paths].join('","') %>"]
+  }
+<% end %>

@@ -3,6 +3,8 @@ default[:logstash][:config][:outputs][:elasticsearch][:enabled] = true
 default[:logstash][:config][:outputs][:elasticsearch][:template_path] = "#{outputs_path}/elasticsearch.erb"
 default[:logstash][:config][:outputs][:elasticsearch][:template_cookbook] = "cybera_logstash"
 default[:logstash][:config][:outputs][:elasticsearch][:variables][:host] = "localhost"
+default[:logstash][:config][:outputs][:elasticsearch][:variables][:node_name] = node.name
+default[:logstash][:config][:outputs][:elasticsearch][:variables][:node_ipaddress] = node.ipaddress
 
 default[:logstash][:config][:outputs][:rabbitmq][:enabled] = false
 default[:logstash][:config][:outputs][:rabbitmq][:template_path] = "#{outputs_path}/rabbitmq.erb"

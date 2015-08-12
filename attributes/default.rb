@@ -1,4 +1,10 @@
+default.java[:jdk_version] = '8'
+default[:java][:oracle][:accept_oracle_download_terms] = true
+default[:java][:accept_license_agreement] = true
+default[:java][:install_flavor] = "oracle"
+
 # General logstash settings
+default[:logstash][:version]  = "1.5"
 default[:logstash][:user]  = "logstash"
 default[:logstash][:group] = "logstash"
 default[:logstash][:log_directory] = "/var/log/logstash"

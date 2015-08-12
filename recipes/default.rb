@@ -1,6 +1,9 @@
+include_recipe "java"
+
 # should add support for YUM based distros
+logstash_version = node[:logstash][:version]
 apt_repository "logstash" do
-  uri "http://packages.elasticsearch.org/logstash/1.3/debian"
+  uri "http://packages.elastic.co/logstash/#{logstash_version}/debian"
   distribution "stable"
   components ["main"]
   key "http://packages.elasticsearch.org/GPG-KEY-elasticsearch"
@@ -14,18 +17,18 @@ service "logstash" do
 end
 
 # this is used by init for logstash
-cookbook_file "/etc/init.d/logstash" do
-  source "logstash"
-  mode 0755
-  notifies :restart, "service[logstash]"
-  action :create
-end
-template "/etc/default/logstash" do
-  source "etc/default/logstash.erb"
-  mode 0755
-  notifies :restart, "service[logstash]"
-  action :create
-end
+#cookbook_file "/etc/init.d/logstash" do
+#  source "logstash"
+#  mode 0755
+#  notifies :restart, "service[logstash]"
+#  action :create
+#end
+#template "/etc/default/logstash" do
+#  source "etc/default/logstash.erb"
+#  mode 0755
+#  notifies :restart, "service[logstash]"
+#  action :create
+#end
 
 logrotate_app 'logstash' do
   cookbook  'logrotate'

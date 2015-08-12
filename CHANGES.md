@@ -1,3 +1,6 @@
+## Version 0.13.0 (Sprint 2015/07)
+* Fixed ElasticSearch output to actually join the cluster rather than using http
+
 ## Version 0.12.0 (Sprint 2015/06)
 * Changes to fix the moodle-cron logstash parsing
 
