@@ -4,6 +4,11 @@ default[:logstash][:config][:filters][:apache][:template_path] = "#{filters_path
 default[:logstash][:config][:filters][:apache][:template_cookbook] = "cybera_logstash"
 default[:logstash][:config][:filters][:apache][:variables] = {}
 
+default[:logstash][:config][:filters][:haproxy][:enabled] = false
+default[:logstash][:config][:filters][:haproxy][:template_path] = "#{filters_path}/haproxy.erb"
+default[:logstash][:config][:filters][:haproxy][:template_cookbook] = "cybera_logstash"
+default[:logstash][:config][:filters][:haproxy][:variables] = {}
+
 default[:logstash][:config][:filters][:institutions][:enabled] = false
 default[:logstash][:config][:filters][:institutions][:template_path] = "#{filters_path}/institutions.erb"
 default[:logstash][:config][:filters][:institutions][:template_cookbook] = "cybera_logstash"

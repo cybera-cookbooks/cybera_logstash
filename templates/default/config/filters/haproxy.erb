@@ -1,0 +1,39 @@
+if [type] == "haproxy" {
+    grok {
+        match => [ "message", "%{HAPROXYHTTP}" ]
+    }
+
+    date {
+        match => ["timestamp", "MMM  d HH:mm:ss", "MMM dd HH:mm:ss" ]
+        remove_field => [ "syslog_timestamp" ]
+    }
+
+    date {
+        match => ["accept_date", "dd/MMM/yyyy:HH:mm:ss.SSS"]
+        target => "accept_date"
+        remove_field => [ "haproxy_monthday", "haproxy_month", "haproxy_year",
+                          "haproxy_time", "haproxy_hour", "haproxy_minute",
+                          "haproxy_second", "haproxy_milliseconds"]
+    }
+
+    mutate {
+        convert => [ "time_request", "integer" ]
+        convert => [ "time_queue", "integer" ]
+        convert => [ "time_backend_connect", "integer" ]
+        convert => [ "time_backend_response", "integer" ]
+        convert => [ "time_duration", "integer" ]
+        convert => [ "bytes_read", "integer" ]
+        convert => [ "actconn", "integer" ]
+        convert => [ "feconn", "integer" ]
+        convert => [ "beconn", "integer" ]
+        convert => [ "srvconn", "integer" ]
+        convert => [ "retries", "integer" ]
+        convert => [ "srv_queue", "integer" ]
+        convert => [ "backend_queue", "integer" ]
+    }
+
+    geoip {
+        add_tag => [ "geoip" ]
+        source => "client_ip"
+    }
+}

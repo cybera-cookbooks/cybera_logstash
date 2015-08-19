@@ -16,6 +16,11 @@ default[:logstash][:config][:inputs][:apache][:template_path] = "#{inputs_path}/
 default[:logstash][:config][:inputs][:apache][:template_cookbook] = "cybera_logstash"
 default[:logstash][:config][:inputs][:apache][:variables] = {}
 
+default[:logstash][:config][:inputs][:haproxy][:enabled] = false
+default[:logstash][:config][:inputs][:haproxy][:template_path] = "#{inputs_path}/haproxy.erb"
+default[:logstash][:config][:inputs][:haproxy][:template_cookbook] = "cybera_logstash"
+default[:logstash][:config][:inputs][:haproxy][:variables] = {}
+
 default[:logstash][:config][:inputs][:moodle_cron][:enabled] = false
 default[:logstash][:config][:inputs][:moodle_cron][:template_path] = "#{inputs_path}/moodle_cron.erb"
 default[:logstash][:config][:inputs][:moodle_cron][:template_cookbook] = "cybera_logstash"
