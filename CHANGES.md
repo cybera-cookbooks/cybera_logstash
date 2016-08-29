@@ -1,3 +1,6 @@
+#### Version 0.15.0
+* Enabled logstash service
+
 #### Version 0.14.0 (Sprint 2015/08)
 * Added haproxy filter and input
 

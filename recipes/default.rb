@@ -13,6 +13,7 @@ include_recipe "apt"
 
 package "logstash"
 service "logstash" do
+  action :enable
   supports restart: true, start: true, stop: true, status: true
 end
 
